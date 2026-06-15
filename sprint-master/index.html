@@ -11,12 +11,8 @@
     <header class="masthead">
       <div class="masthead__top">
         <img class="masthead__logo" src="./assets/ifsp-logo.png" alt="Logotipo do IFSP">
-        <div class="masthead__title-group">
-          <p class="masthead__eyebrow">IFSP · SPOENG1</p>
-          <h1>Sprint Master</h1>
-        </div>
+        <h1>Sprint Master</h1>
       </div>
-      <p class="masthead__meta">Cadastro simples de projetos de pesquisa.</p>
     </header>
 
     <section class="strip" aria-labelledby="dashboard-title">
@@ -34,20 +30,29 @@
         <li class="stat">
           <span class="stat__icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M5 6.5A1.5 1.5 0 0 1 6.5 5h11A1.5 1.5 0 0 1 19 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 17.5z"/>
+              <path d="M8 9h8M8 12h8M8 15h5"/>
+            </svg>
+          </span>
+          <strong id="total-activities">0</strong>
+        </li>
+        <li class="stat">
+          <span class="stat__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
               <rect x="4" y="5" width="16" height="15" rx="2"/>
               <path d="M8 3v4M16 3v4M4 10h16"/>
             </svg>
           </span>
-          <strong id="projects-with-deadline">0</strong>
+          <strong id="completed-activities">0</strong>
         </li>
         <li class="stat stat--wide">
           <span class="stat__icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" focusable="false">
-              <circle cx="12" cy="12" r="8"/>
-              <path d="M12 7v5l3 2"/>
+              <path d="M12 4a8 8 0 1 1-8 8"/>
+              <path d="M12 4v8h8"/>
             </svg>
           </span>
-          <strong id="next-deadline">Nenhum</strong>
+          <strong id="overall-progress">0%</strong>
         </li>
       </ul>
     </section>
@@ -63,22 +68,43 @@
       </div>
 
       <form id="project-form" class="project-form">
-        <label class="field">
-          <span class="field__label">Nome</span>
-          <input type="text" name="name" maxlength="80" placeholder="Plataforma de Iniciacao Cientifica" required>
+        <label class="field field--icon">
+          <span class="field__label sr-only">Nome do projeto</span>
+          <span class="field__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h6.879a2 2 0 0 1 1.414.586l4.621 4.621A2 2 0 0 1 19 10.621V18.5A1.5 1.5 0 0 1 17.5 20h-12A1.5 1.5 0 0 1 4 18.5z"/>
+              <path d="M13 4.5V9a1 1 0 0 0 1 1h4.5"/>
+            </svg>
+          </span>
+          <input type="text" name="name" maxlength="80" placeholder="Plataforma de Iniciação Científica" aria-label="Nome do projeto" required>
         </label>
 
-        <label class="field">
-          <span class="field__label">Descricao</span>
-          <textarea name="description" rows="3" maxlength="240" placeholder="Objetivo, contexto ou recorte do projeto."></textarea>
+        <label class="field field--icon">
+          <span class="field__label sr-only">Descrição do projeto</span>
+          <span class="field__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M6 7h12M6 12h12M6 17h8"/>
+            </svg>
+          </span>
+          <textarea name="description" rows="3" maxlength="240" placeholder="Descrição do projeto." aria-label="Descrição do projeto"></textarea>
         </label>
 
-        <label class="field">
-          <span class="field__label">Prazo</span>
-          <input type="date" name="deadline">
+        <label class="field field--icon">
+          <span class="field__label sr-only">Prazo do projeto</span>
+          <span class="field__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <rect x="4" y="5" width="16" height="15" rx="2"/>
+              <path d="M8 3v4M16 3v4M4 10h16"/>
+            </svg>
+          </span>
+          <input type="date" name="deadline" aria-label="Prazo do projeto">
         </label>
 
-        <button type="submit" class="button">Salvar</button>
+        <button type="submit" class="button button--icon" aria-label="Salvar projeto" title="Salvar projeto">
+          <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
         <p id="form-feedback" class="form-feedback" aria-live="polite"></p>
       </form>
     </section>
@@ -106,6 +132,75 @@
       <div id="projects-list" class="projects-list" aria-live="polite"></div>
     </section>
   </main>
+
+  <template id="project-card-template">
+    <article class="project-card">
+      <div class="project-card__header">
+        <div>
+          <h3 class="project-card__title"></h3>
+          <p class="project-card__description"></p>
+        </div>
+        <div class="project-card__actions">
+          <span class="project-card__status"></span>
+          <button type="button" class="icon-button project-delete-button" aria-label="Excluir projeto">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path d="M4 7h16"/>
+              <path d="M10 11v6M14 11v6"/>
+              <path d="M9 4h6l1 3H8z"/>
+              <path d="M6 7l1 12h10l1-12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="project-card__meta">
+        <span class="project-tag project-deadline-tag"></span>
+        <span class="project-tag project-progress-tag"></span>
+      </div>
+
+      <section class="activities" aria-label="Atividades do projeto">
+        <div class="activities__head">
+          <h4>Atividades</h4>
+          <span class="activities__counter"></span>
+        </div>
+
+        <form class="activity-form">
+          <input type="hidden" name="projectId">
+          <div class="activity-form__grid">
+            <label class="field field--compact field--icon">
+              <span class="field__label sr-only">Título da atividade</span>
+              <span class="field__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M6 7h12M6 12h12M6 17h8"/>
+                </svg>
+              </span>
+              <input type="text" name="title" maxlength="80" placeholder="Revisar backlog" aria-label="Título da atividade" required>
+            </label>
+
+            <label class="field field--compact field--icon">
+              <span class="field__label sr-only">Responsável pela atividade</span>
+              <span class="field__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <circle cx="12" cy="8" r="3.5"/>
+                  <path d="M5 19a7 7 0 0 1 14 0"/>
+                </svg>
+              </span>
+              <input type="text" name="responsible" maxlength="50" placeholder="Lucas" aria-label="Responsável pela atividade" required>
+            </label>
+          </div>
+
+          <button type="submit" class="button button--secondary button--icon" aria-label="Adicionar atividade" title="Adicionar atividade">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+          </button>
+        </form>
+
+        <div class="activities-empty-state" hidden>Nenhuma atividade ainda.</div>
+        <ul class="activity-list"></ul>
+      </section>
+    </article>
+  </template>
 
   <script src="./script.js"></script>
 </body>
