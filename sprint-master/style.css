@@ -228,6 +228,7 @@ h2 {
 .json-form__actions {
   display: flex;
   gap: 10px;
+  padding-left: 28px;
 }
 
 .field {
@@ -730,6 +731,7 @@ h2 {
 
   .json-form__actions {
     flex-wrap: wrap;
+    padding-left: 0;
   }
 
   .masthead__top,
