@@ -15,10 +15,10 @@ A atividade foi proposta como uma sprint de sete dias. Por restrições reais de
 ## Papéis
 
 - Product Owner: Fabio Ara
-- Scrum Master: Lucas Toffetti
+- Scrum Master: Lucas Toffetti Toffetti
 - Dev Lead: Fabio Ara
-- QA: Lucas Toffetti
-- Integrante nominal: Osvaldo Matteos
+- QA: Lucas Toffetti Toffetti
+- Integrante nominal: Osvaldo Matteos Matteos
 
 ## Definição de pronto
 
