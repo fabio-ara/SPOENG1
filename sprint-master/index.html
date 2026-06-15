@@ -57,6 +57,49 @@
       </ul>
     </section>
 
+    <section class="panel panel--members" aria-labelledby="members-title">
+      <div class="section-head">
+        <h2 id="members-title">Responsáveis</h2>
+        <span class="section-head__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <circle cx="12" cy="8" r="3.5"/>
+            <path d="M5 19a7 7 0 0 1 14 0"/>
+          </svg>
+        </span>
+      </div>
+
+      <form id="member-form" class="member-form">
+        <label class="field field--icon">
+          <span class="field__label sr-only">Nome do responsável</span>
+          <span class="field__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <circle cx="12" cy="8" r="3.5"/>
+              <path d="M5 19a7 7 0 0 1 14 0"/>
+            </svg>
+          </span>
+          <input type="text" name="memberName" maxlength="60" placeholder="Novo responsável" aria-label="Nome do responsável" required>
+        </label>
+
+        <button type="submit" class="button button--secondary button--icon button--icon-right" aria-label="Adicionar responsável" title="Adicionar responsável">
+          <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
+      </form>
+
+      <div id="members-empty-state" class="empty-state" hidden>
+        <span class="empty-state__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <circle cx="12" cy="8" r="3.5"/>
+            <path d="M5 19a7 7 0 0 1 14 0"/>
+          </svg>
+        </span>
+        <p>Nenhum responsável cadastrado.</p>
+      </div>
+
+      <ul id="members-list" class="member-list" aria-live="polite"></ul>
+    </section>
+
     <section class="panel panel--form" aria-labelledby="project-form-title">
       <div class="section-head">
         <h2 id="project-form-title">Novo projeto</h2>
@@ -100,7 +143,7 @@
           <input type="date" name="deadline" aria-label="Prazo do projeto">
         </label>
 
-        <button type="submit" class="button button--icon" aria-label="Salvar projeto" title="Salvar projeto">
+        <button type="submit" class="button button--icon button--icon-right" aria-label="Salvar projeto" title="Salvar projeto">
           <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
             <path d="M12 5v14M5 12h14"/>
           </svg>
@@ -185,11 +228,11 @@
                   <path d="M5 19a7 7 0 0 1 14 0"/>
                 </svg>
               </span>
-              <input type="text" name="responsible" maxlength="50" placeholder="Lucas" aria-label="Responsável pela atividade" required>
+              <select name="responsible" class="activity-responsible-select" aria-label="Responsável pela atividade" required></select>
             </label>
           </div>
 
-          <button type="submit" class="button button--secondary button--icon" aria-label="Adicionar atividade" title="Adicionar atividade">
+          <button type="submit" class="button button--secondary button--icon button--icon-right" aria-label="Adicionar atividade" title="Adicionar atividade">
             <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
               <path d="M12 5v14M5 12h14"/>
             </svg>

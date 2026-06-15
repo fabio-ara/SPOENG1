@@ -10,6 +10,9 @@
 
 | Caso | Procedimento | Resultado esperado | Status |
 |---|---|---|---|
+| Cadastrar responsável | Adicionar um nome na área de responsáveis | Responsável aparece na lista | Pendente |
+| Excluir responsável sem uso | Remover um responsável sem atividade vinculada | Responsável sai da lista | Pendente |
+| Bloquear exclusão em uso | Tentar remover responsável já usado em atividade | Sistema impede a exclusão | Pendente |
 | Cadastrar projeto | Preencher nome, descrição e prazo | Projeto aparece na lista | Pendente |
 | Excluir projeto | Clicar no botão de exclusão do projeto | Projeto sai da lista | Pendente |
 | Persistir projeto | Recarregar a página | Projeto continua aparecendo | Pendente |

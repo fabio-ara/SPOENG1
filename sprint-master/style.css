@@ -29,7 +29,8 @@ img {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -174,6 +175,12 @@ h2 {
   gap: 12px;
 }
 
+.member-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 38px;
+  gap: 10px;
+}
+
 .field {
   display: grid;
   gap: 6px;
@@ -181,7 +188,7 @@ h2 {
 
 .field--icon {
   grid-template-columns: 18px minmax(0, 1fr);
-  align-items: start;
+  align-items: center;
   column-gap: 10px;
 }
 
@@ -193,12 +200,12 @@ h2 {
 .field__icon {
   width: 18px;
   height: 18px;
-  margin-top: 12px;
   color: var(--muted);
 }
 
 .field input,
-.field textarea {
+.field textarea,
+.field select {
   width: 100%;
   padding: 11px 12px;
   border: 1px solid var(--border);
@@ -209,7 +216,8 @@ h2 {
 }
 
 .field input:focus,
-.field textarea:focus {
+.field textarea:focus,
+.field select:focus {
   outline: none;
   border-color: var(--accent);
   background: #fff;
@@ -246,6 +254,10 @@ h2 {
   height: 16px;
 }
 
+.button--icon-right {
+  justify-self: end;
+}
+
 .button--secondary {
   background: var(--surface-alt);
   color: var(--text);
@@ -275,6 +287,46 @@ h2 {
 .projects-list {
   display: grid;
   gap: 10px;
+}
+
+.member-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 12px 0 0;
+  list-style: none;
+}
+
+.member-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-alt);
+}
+
+.member-chip__name {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.member-chip__icon {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
+}
+
+.member-chip .icon-button {
+  width: 24px;
+  height: 24px;
+}
+
+.member-chip .icon-button svg {
+  width: 12px;
+  height: 12px;
 }
 
 .empty-state {
@@ -479,6 +531,26 @@ h2 {
   background-repeat: no-repeat;
 }
 
+.activity-responsible-select {
+  height: 42px;
+  padding: 10px 32px 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-alt);
+  color: var(--text);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 18px,
+    calc(100% - 9px) 18px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
 .icon-button {
   display: inline-flex;
   align-items: center;
@@ -528,11 +600,19 @@ h2 {
     align-items: flex-start;
   }
 
+  .member-form {
+    grid-template-columns: 1fr;
+  }
+
   .field--icon {
     grid-template-columns: 1fr;
   }
 
   .field__icon {
     display: none;
+  }
+
+  .button--icon-right {
+    justify-self: start;
   }
 }
