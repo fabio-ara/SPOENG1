@@ -78,11 +78,11 @@ svg {
 }
 
 .masthead__eyebrow {
-  margin: 0 0 2px;
-  color: var(--accent);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -94,8 +94,8 @@ p {
 }
 
 h1 {
-  font-size: 1.7rem;
-  line-height: 1.05;
+  font-size: 1.95rem;
+  line-height: 1.02;
   letter-spacing: -0.03em;
 }
 
@@ -107,7 +107,7 @@ h2 {
 .masthead__meta {
   margin-top: 10px;
   color: var(--muted);
-  font-size: 0.92rem;
+  font-size: 0.95rem;
 }
 
 .strip,
@@ -266,6 +266,10 @@ h2 {
   color: var(--muted);
 }
 
+.empty-state[hidden] {
+  display: none;
+}
+
 .empty-state__icon {
   width: 18px;
   height: 18px;
@@ -282,19 +286,25 @@ h2 {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  align-items: baseline;
+  align-items: flex-start;
 }
 
 .project-card__title {
-  font-size: 1rem;
+  font-size: 1.02rem;
   font-weight: 600;
 }
 
 .project-card__description {
   margin-top: 6px;
   color: var(--muted);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   line-height: 1.45;
+}
+
+.project-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .project-card__meta {
@@ -318,6 +328,33 @@ h2 {
 .project-card__status {
   color: var(--muted);
   font-size: 0.84rem;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-alt);
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: #fff4f2;
+}
+
+.icon-button svg {
+  width: 14px;
+  height: 14px;
 }
 
 @media (max-width: 520px) {

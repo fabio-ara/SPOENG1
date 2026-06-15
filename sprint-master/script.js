@@ -29,6 +29,14 @@ function saveProjects() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
 }
 
+function deleteProject(projectId) {
+  projects = projects.filter((project) => project.id !== projectId);
+  saveProjects();
+  renderDashboard();
+  renderProjects();
+  setFeedback("Projeto excluido.");
+}
+
 function generateId() {
   return `project-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
 }
@@ -116,11 +124,31 @@ function renderProjects() {
 
     titleGroup.append(title, description);
 
+    const actions = document.createElement("div");
+    actions.className = "project-card__actions";
+
     const status = document.createElement("span");
     status.className = "project-card__status";
     status.textContent = "0%";
 
-    header.append(titleGroup, status);
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "icon-button";
+    deleteButton.setAttribute("aria-label", `Excluir projeto ${project.name}`);
+    deleteButton.innerHTML = `
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+        <path d="M4 7h16"/>
+        <path d="M10 11v6M14 11v6"/>
+        <path d="M9 4h6l1 3H8z"/>
+        <path d="M6 7l1 12h10l1-12"/>
+      </svg>
+    `;
+    deleteButton.addEventListener("click", () => {
+      deleteProject(project.id);
+    });
+
+    actions.append(status, deleteButton);
+    header.append(titleGroup, actions);
 
     const meta = document.createElement("div");
     meta.className = "project-card__meta";
