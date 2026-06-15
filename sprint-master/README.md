@@ -21,8 +21,8 @@ Abra o arquivo `index.html` no navegador.
 
 ## Funcionalidades atuais
 
-- Cadastro, edição e exclusão de projetos.
-- Cadastro e exclusão de responsáveis com persistência local.
+- Cadastro, edição e exclusão de projetos em painel próprio.
+- Cadastro e exclusão de responsáveis em painel próprio com persistência local.
 - Cadastro e exclusão de atividades por projeto.
 - Definição de responsável por atividade.
 - Alteração de status: `A fazer`, `Em andamento` e `Concluído`.

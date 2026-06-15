@@ -11,10 +11,16 @@ const LEGACY_STATUS_MAP = {
   concluido: "concluído"
 };
 
+const openMembersOverlayButton = document.querySelector("#open-members-overlay");
+const openProjectOverlayButton = document.querySelector("#open-project-overlay");
+const membersOverlay = document.querySelector("#members-overlay");
+const projectOverlay = document.querySelector("#project-overlay");
 const projectForm = document.querySelector("#project-form");
+const projectFormPanel = document.querySelector(".overlay-panel--editing");
 const projectFormTitle = document.querySelector("#project-form-title");
 const projectFormCancelButton = document.querySelector("#project-form-cancel");
 const memberForm = document.querySelector("#member-form");
+const memberFeedback = document.querySelector("#member-feedback");
 const projectsList = document.querySelector("#projects-list");
 const emptyState = document.querySelector("#projects-empty-state");
 const feedback = document.querySelector("#form-feedback");
@@ -123,15 +129,32 @@ function setFeedback(message, isError = false) {
   feedback.classList.toggle("form-feedback--error", isError);
 }
 
+function setMemberFeedback(message, isError = false) {
+  memberFeedback.textContent = message;
+  memberFeedback.classList.toggle("form-feedback--error", isError);
+}
+
+function openOverlay(overlay) {
+  overlay.hidden = false;
+  overlay.setAttribute("aria-hidden", "false");
+}
+
+function closeOverlay(overlay) {
+  overlay.hidden = true;
+  overlay.setAttribute("aria-hidden", "true");
+}
+
 function resetProjectForm() {
   projectForm.reset();
   projectForm.elements.projectId.value = "";
   editingProjectId = null;
   projectFormTitle.textContent = "Novo projeto";
   projectFormCancelButton.hidden = true;
+  projectFormPanel.classList.remove("panel--editing");
 }
 
 function startProjectEdit(project) {
+  openOverlay(projectOverlay);
   editingProjectId = project.id;
   projectForm.elements.projectId.value = project.id;
   projectForm.elements.name.value = project.name;
@@ -139,7 +162,7 @@ function startProjectEdit(project) {
   projectForm.elements.deadline.value = project.deadline || "";
   projectFormTitle.textContent = "Editar projeto";
   projectFormCancelButton.hidden = false;
-  projectForm.scrollIntoView({ behavior: "smooth", block: "start" });
+  projectFormPanel.classList.add("panel--editing");
 }
 
 function calculateProjectProgress(project) {
@@ -243,7 +266,7 @@ function renderMembers() {
 
     deleteButton.addEventListener("click", () => {
       if (memberIsInUse(member)) {
-        setFeedback("Não é possível excluir um responsável já usado em atividade.", true);
+        setMemberFeedback("Não é possível excluir um responsável já usado em atividade.", true);
         return;
       }
 
@@ -251,7 +274,7 @@ function renderMembers() {
       saveMembers();
       renderMembers();
       renderProjects();
-      setFeedback("Responsável excluído.");
+      setMemberFeedback("Responsável excluído.");
     });
 
     item.append(deleteButton);
@@ -371,6 +394,7 @@ function renderProjects() {
     editButton.setAttribute("aria-label", `Editar projeto ${project.name}`);
     editButton.addEventListener("click", () => {
       startProjectEdit(project);
+      projectForm.elements.name.focus();
     });
 
     activityForm.addEventListener("submit", handleActivitySubmit);
@@ -512,12 +536,12 @@ function handleMemberSubmit(event) {
   const memberName = String(formData.get("memberName") || "").trim();
 
   if (!memberName) {
-    setFeedback("Informe o nome do responsável.", true);
+    setMemberFeedback("Informe o nome do responsável.", true);
     return;
   }
 
   if (members.some((member) => member.localeCompare(memberName, "pt-BR", { sensitivity: "base" }) === 0)) {
-    setFeedback("Esse responsável já existe.", true);
+    setMemberFeedback("Esse responsável já existe.", true);
     return;
   }
 
@@ -526,7 +550,7 @@ function handleMemberSubmit(event) {
   renderMembers();
   renderProjects();
   memberForm.reset();
-  setFeedback("Responsável adicionado com sucesso.");
+  setMemberFeedback("Responsável adicionado com sucesso.");
 }
 
 function handleProjectSubmit(event) {
@@ -545,6 +569,7 @@ function handleProjectSubmit(event) {
 
   if (projectId) {
     updateProject(projectId, { name, description, deadline });
+    closeOverlay(projectOverlay);
     return;
   }
 
@@ -554,6 +579,7 @@ function handleProjectSubmit(event) {
   renderDashboard();
   renderProjects();
   resetProjectForm();
+  closeOverlay(projectOverlay);
   setFeedback("Projeto salvo com sucesso.");
 }
 
@@ -579,7 +605,38 @@ memberForm.addEventListener("submit", handleMemberSubmit);
 projectForm.addEventListener("submit", handleProjectSubmit);
 projectFormCancelButton.addEventListener("click", () => {
   resetProjectForm();
+  closeOverlay(projectOverlay);
   setFeedback("");
+});
+openMembersOverlayButton.addEventListener("click", () => {
+  openOverlay(membersOverlay);
+  setMemberFeedback("");
+  memberForm.elements.memberName.focus();
+});
+openProjectOverlayButton.addEventListener("click", () => {
+  resetProjectForm();
+  openOverlay(projectOverlay);
+  projectForm.elements.name.focus();
+});
+document.querySelectorAll("[data-close-overlay='members']").forEach((button) => {
+  button.addEventListener("click", () => closeOverlay(membersOverlay));
+});
+document.querySelectorAll("[data-close-overlay='project']").forEach((button) => {
+  button.addEventListener("click", () => {
+    resetProjectForm();
+    closeOverlay(projectOverlay);
+  });
+});
+[membersOverlay, projectOverlay].forEach((overlay) => {
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) {
+      if (overlay === projectOverlay) {
+        resetProjectForm();
+      }
+
+      closeOverlay(overlay);
+    }
+  });
 });
 
 renderDashboard();
