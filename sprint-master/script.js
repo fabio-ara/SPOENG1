@@ -8,7 +8,10 @@ const totalActivities = document.querySelector("#total-activities");
 const completedActivities = document.querySelector("#completed-activities");
 const overallProgress = document.querySelector("#overall-progress");
 const projectCardTemplate = document.querySelector("#project-card-template");
-const VALID_STATUSES = ["a fazer", "andando", "concluido"];
+const VALID_STATUSES = ["a fazer", "andando", "concluído"];
+const LEGACY_STATUS_MAP = {
+  concluido: "concluído"
+};
 
 let projects = loadProjects();
 
@@ -28,7 +31,12 @@ function loadProjects() {
 
     return parsedProjects.map((project) => ({
       ...project,
-      activities: Array.isArray(project.activities) ? project.activities : []
+      activities: Array.isArray(project.activities)
+        ? project.activities.map((activity) => ({
+            ...activity,
+            status: LEGACY_STATUS_MAP[activity.status] || activity.status || "a fazer"
+          }))
+        : []
     }));
   } catch (error) {
     console.error("Erro ao carregar projetos:", error);
@@ -45,7 +53,7 @@ function deleteProject(projectId) {
   saveProjects();
   renderDashboard();
   renderProjects();
-  setFeedback("Projeto excluido.");
+  setFeedback("Projeto excluído.");
 }
 
 function generateId() {
@@ -149,14 +157,14 @@ function calculateProjectProgress(project) {
     return 0;
   }
 
-  const completed = project.activities.filter((activity) => activity.status === "concluido").length;
+  const completed = project.activities.filter((activity) => activity.status === "concluído").length;
   return Math.round((completed / total) * 100);
 }
 
 function calculateTotals() {
   const activityCount = projects.reduce((sum, project) => sum + project.activities.length, 0);
   const completedCount = projects.reduce(
-    (sum, project) => sum + project.activities.filter((activity) => activity.status === "concluido").length,
+    (sum, project) => sum + project.activities.filter((activity) => activity.status === "concluído").length,
     0
   );
 
@@ -239,10 +247,23 @@ function renderProjects() {
     const progress = calculateProjectProgress(project);
 
     title.textContent = project.name;
-    description.textContent = project.description || "Sem descricao informada.";
+    description.textContent = project.description || "";
+    description.hidden = !project.description;
     status.textContent = `${progress}%`;
-    deadlineTag.textContent = `Prazo: ${formatDate(project.deadline)}`;
-    progressTag.textContent = `Progresso: ${progress}%`;
+    deadlineTag.innerHTML = `
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+        <rect x="4" y="5" width="16" height="15" rx="2"/>
+        <path d="M8 3v4M16 3v4M4 10h16"/>
+      </svg>
+      <span>${formatDate(project.deadline)}</span>
+    `;
+    progressTag.innerHTML = `
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+        <path d="M12 4a8 8 0 1 1-8 8"/>
+        <path d="M12 4v8h8"/>
+      </svg>
+      <span>${progress}%</span>
+    `;
     activityCounter.textContent = `${project.activities.length} item(ns)`;
     projectIdField.value = project.id;
 
@@ -272,7 +293,13 @@ function renderProjects() {
 
         const responsible = document.createElement("p");
         responsible.className = "activity-item__responsible";
-        responsible.textContent = `Responsavel: ${activity.responsible}`;
+        responsible.innerHTML = `
+          <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.5"/>
+            <path d="M5 19a7 7 0 0 1 14 0"/>
+          </svg>
+          <span>${activity.responsible}</span>
+        `;
 
         copy.append(activityTitle, responsible);
 
@@ -345,7 +372,7 @@ function handleActivitySubmit(event) {
   const responsible = String(formData.get("responsible") || "").trim();
 
   if (!title || !responsible) {
-    setFeedback("Informe titulo e responsavel da atividade.", true);
+    setFeedback("Informe título e responsável da atividade.", true);
     return;
   }
 
