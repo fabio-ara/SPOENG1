@@ -24,3 +24,7 @@
 | Excluir atividade | Clicar no botão de exclusão da atividade | Atividade sai da lista | Pendente |
 | Calcular progresso | Marcar atividade como concluída | Percentual do projeto muda | Pendente |
 | Dashboard | Cadastrar projetos e atividades | Totais aparecem no dashboard | Pendente |
+| Exportar JSON completo | Abrir o painel JSON e clicar em exportar no escopo `Tudo` | Campo mostra responsáveis e projetos em JSON válido | Pendente |
+| Importar projetos por JSON | Selecionar escopo `Projetos` e importar um JSON válido | Lista de projetos é substituída pelos itens importados | Pendente |
+| Importar responsáveis por JSON | Selecionar escopo `Responsáveis` e importar um JSON válido | Lista de responsáveis é atualizada e persiste | Pendente |
+| Copiar JSON | Clicar no botão de copiar no painel JSON | Conteúdo atual é copiado para a área de transferência | Pendente |

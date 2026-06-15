@@ -1,18 +1,22 @@
-const STORAGE_KEY = "sprint-master-projects";
-const MEMBERS_STORAGE_KEY = "sprint-master-members";
+const APP_STORAGE_KEY = "sprint-master-state";
+const LEGACY_PROJECTS_STORAGE_KEY = "sprint-master-projects";
+const LEGACY_MEMBERS_STORAGE_KEY = "sprint-master-members";
 const DEFAULT_MEMBERS = ["Fabio Ara", "Lucas Toffetti", "Osvaldo Matteos"];
 const STATUS_OPTIONS = [
   { value: "a fazer", label: "A fazer" },
   { value: "em andamento", label: "Em andamento" },
   { value: "concluído", label: "Concluído" }
 ];
+const VALID_STATUS = new Set(STATUS_OPTIONS.map((status) => status.value));
 const LEGACY_STATUS_MAP = {
   andando: "em andamento",
   concluido: "concluído"
 };
 
+const openJsonOverlayButton = document.querySelector("#open-json-overlay");
 const openMembersOverlayButton = document.querySelector("#open-members-overlay");
 const openProjectOverlayButton = document.querySelector("#open-project-overlay");
+const jsonOverlay = document.querySelector("#json-overlay");
 const membersOverlay = document.querySelector("#members-overlay");
 const projectOverlay = document.querySelector("#project-overlay");
 const projectForm = document.querySelector("#project-form");
@@ -20,7 +24,13 @@ const projectFormPanel = document.querySelector(".overlay-panel--editing");
 const projectFormTitle = document.querySelector("#project-form-title");
 const projectFormCancelButton = document.querySelector("#project-form-cancel");
 const memberForm = document.querySelector("#member-form");
+const jsonScope = document.querySelector("#json-scope");
+const jsonTextarea = document.querySelector("#json-textarea");
+const jsonExportButton = document.querySelector("#json-export-button");
+const jsonCopyButton = document.querySelector("#json-copy-button");
+const jsonImportButton = document.querySelector("#json-import-button");
 const memberFeedback = document.querySelector("#member-feedback");
+const jsonFeedback = document.querySelector("#json-feedback");
 const projectsList = document.querySelector("#projects-list");
 const emptyState = document.querySelector("#projects-empty-state");
 const feedback = document.querySelector("#form-feedback");
@@ -32,67 +42,205 @@ const membersList = document.querySelector("#members-list");
 const membersEmptyState = document.querySelector("#members-empty-state");
 const projectCardTemplate = document.querySelector("#project-card-template");
 
-let members = loadMembers();
-let projects = loadProjects();
+let members = [];
+let projects = [];
 let editingProjectId = null;
 
-function loadMembers() {
+initializeState();
+
+function initializeState() {
+  const state = loadState();
+  members = state.members;
+  projects = state.projects;
+  saveState();
+}
+
+function loadState() {
   try {
-    const rawMembers = localStorage.getItem(MEMBERS_STORAGE_KEY);
+    const rawState = localStorage.getItem(APP_STORAGE_KEY);
 
-    if (!rawMembers) {
-      return [...DEFAULT_MEMBERS];
+    if (rawState) {
+      return normalizeImportedState(JSON.parse(rawState), "all");
     }
-
-    const parsedMembers = JSON.parse(rawMembers);
-    return Array.isArray(parsedMembers) && parsedMembers.length > 0
-      ? parsedMembers.map((member) => String(member || "").trim()).filter(Boolean)
-      : [...DEFAULT_MEMBERS];
   } catch (error) {
-    console.error("Erro ao carregar responsáveis:", error);
-    return [...DEFAULT_MEMBERS];
+    console.error("Erro ao carregar o estado principal:", error);
+  }
+
+  return migrateLegacyState();
+}
+
+function migrateLegacyState() {
+  try {
+    const rawMembers = localStorage.getItem(LEGACY_MEMBERS_STORAGE_KEY);
+    const rawProjects = localStorage.getItem(LEGACY_PROJECTS_STORAGE_KEY);
+    const legacyMembers = rawMembers ? JSON.parse(rawMembers) : DEFAULT_MEMBERS;
+    const legacyProjects = rawProjects ? JSON.parse(rawProjects) : [];
+
+    return {
+      members: normalizeMembers(legacyMembers),
+      projects: normalizeProjects(legacyProjects)
+    };
+  } catch (error) {
+    console.error("Erro ao migrar o estado legado:", error);
+    return {
+      members: [...DEFAULT_MEMBERS],
+      projects: []
+    };
   }
 }
 
-function saveMembers() {
-  localStorage.setItem(MEMBERS_STORAGE_KEY, JSON.stringify(members));
-}
-
-function loadProjects() {
-  try {
-    const rawProjects = localStorage.getItem(STORAGE_KEY);
-
-    if (!rawProjects) {
-      return [];
-    }
-
-    const parsedProjects = JSON.parse(rawProjects);
-
-    if (!Array.isArray(parsedProjects)) {
-      return [];
-    }
-
-    return parsedProjects.map((project) => ({
-      ...project,
-      activities: Array.isArray(project.activities)
-        ? project.activities.map((activity) => ({
-            ...activity,
-            status: LEGACY_STATUS_MAP[activity.status] || activity.status || "a fazer"
-          }))
-        : []
-    }));
-  } catch (error) {
-    console.error("Erro ao carregar projetos:", error);
-    return [];
-  }
-}
-
-function saveProjects() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+function saveState() {
+  const compactState = serializeScope("all");
+  localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(compactState));
+  localStorage.removeItem(LEGACY_MEMBERS_STORAGE_KEY);
+  localStorage.removeItem(LEGACY_PROJECTS_STORAGE_KEY);
 }
 
 function generateId() {
   return `item-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
+}
+
+function normalizeStatus(status) {
+  const normalized = LEGACY_STATUS_MAP[String(status || "").trim()] || String(status || "").trim();
+  return VALID_STATUS.has(normalized) ? normalized : "a fazer";
+}
+
+function normalizeMembers(rawMembers) {
+  if (!Array.isArray(rawMembers)) {
+    return [...DEFAULT_MEMBERS];
+  }
+
+  const uniqueMembers = [];
+
+  rawMembers.forEach((member) => {
+    const name = String(member || "").trim();
+
+    if (!name) {
+      return;
+    }
+
+    const exists = uniqueMembers.some(
+      (currentMember) => currentMember.localeCompare(name, "pt-BR", { sensitivity: "base" }) === 0
+    );
+
+    if (!exists) {
+      uniqueMembers.push(name);
+    }
+  });
+
+  return uniqueMembers.length > 0 ? uniqueMembers : [...DEFAULT_MEMBERS];
+}
+
+function normalizeActivities(rawActivities) {
+  if (!Array.isArray(rawActivities)) {
+    return [];
+  }
+
+  return rawActivities
+    .map((activity) => {
+      const title = String(activity?.title ?? activity?.tit ?? "").trim();
+      const responsible = String(activity?.responsible ?? activity?.resp ?? "").trim();
+
+      if (!title || !responsible) {
+        return null;
+      }
+
+      return {
+        id: String(activity?.id || generateId()),
+        title,
+        responsible,
+        status: normalizeStatus(activity?.status ?? activity?.st)
+      };
+    })
+    .filter(Boolean);
+}
+
+function normalizeProjects(rawProjects) {
+  if (!Array.isArray(rawProjects)) {
+    return [];
+  }
+
+  return rawProjects
+    .map((project) => {
+      const name = String(project?.name ?? project?.nome ?? "").trim();
+
+      if (!name) {
+        return null;
+      }
+
+      return {
+        id: String(project?.id || generateId()),
+        name,
+        description: String(project?.description ?? project?.desc ?? "").trim(),
+        deadline: String(project?.deadline ?? project?.prazo ?? "").trim(),
+        activities: normalizeActivities(project?.activities ?? project?.ats),
+        createdAt: String(project?.createdAt ?? project?.criado ?? new Date().toISOString())
+      };
+    })
+    .filter(Boolean);
+}
+
+function normalizeImportedState(rawValue, scope) {
+  if (scope === "members") {
+    const membersValue = Array.isArray(rawValue) ? rawValue : rawValue?.resp;
+
+    return {
+      members: normalizeMembers(membersValue),
+      projects: [...projects]
+    };
+  }
+
+  if (scope === "projects") {
+    const projectsValue = Array.isArray(rawValue) ? rawValue : rawValue?.proj;
+
+    return {
+      members: [...members],
+      projects: normalizeProjects(projectsValue)
+    };
+  }
+
+  const importedMembers = rawValue?.resp ?? rawValue?.members;
+  const importedProjects = rawValue?.proj ?? rawValue?.projects;
+
+  return {
+    members: normalizeMembers(importedMembers),
+    projects: normalizeProjects(importedProjects)
+  };
+}
+
+function serializeProject(project) {
+  return {
+    id: project.id,
+    nome: project.name,
+    desc: project.description || "",
+    prazo: project.deadline || "",
+    criado: project.createdAt,
+    ats: project.activities.map((activity) => ({
+      id: activity.id,
+      tit: activity.title,
+      resp: activity.responsible,
+      st: activity.status
+    }))
+  };
+}
+
+function serializeScope(scope) {
+  if (scope === "members") {
+    return { resp: [...members] };
+  }
+
+  if (scope === "projects") {
+    return { proj: projects.map(serializeProject) };
+  }
+
+  return {
+    resp: [...members],
+    proj: projects.map(serializeProject)
+  };
+}
+
+function exportScope(scope) {
+  return JSON.stringify(serializeScope(scope), null, 2);
 }
 
 function createProject({ name, description, deadline }) {
@@ -134,6 +282,11 @@ function setMemberFeedback(message, isError = false) {
   memberFeedback.classList.toggle("form-feedback--error", isError);
 }
 
+function setJsonFeedback(message, isError = false) {
+  jsonFeedback.textContent = message;
+  jsonFeedback.classList.toggle("form-feedback--error", isError);
+}
+
 function openOverlay(overlay) {
   overlay.hidden = false;
   overlay.setAttribute("aria-hidden", "false");
@@ -151,6 +304,16 @@ function resetProjectForm() {
   projectFormTitle.textContent = "Novo projeto";
   projectFormCancelButton.hidden = true;
   projectFormPanel.classList.remove("panel--editing");
+}
+
+function refreshJsonTextarea() {
+  jsonTextarea.value = exportScope(jsonScope.value);
+}
+
+function resetJsonPanel() {
+  jsonScope.value = "all";
+  refreshJsonTextarea();
+  setJsonFeedback("");
 }
 
 function startProjectEdit(project) {
@@ -213,6 +376,12 @@ function createTrashIcon() {
   `;
 }
 
+function renderAll() {
+  renderDashboard();
+  renderMembers();
+  renderProjects();
+}
+
 function updateProject(projectId, updates) {
   projects = projects.map((project) => (
     project.id === projectId
@@ -225,9 +394,8 @@ function updateProject(projectId, updates) {
       : project
   ));
 
-  saveProjects();
-  renderDashboard();
-  renderProjects();
+  saveState();
+  renderAll();
   resetProjectForm();
   setFeedback("Projeto atualizado com sucesso.");
 }
@@ -271,10 +439,10 @@ function renderMembers() {
       }
 
       members = members.filter((currentMember) => currentMember !== member);
-      saveMembers();
-      renderMembers();
-      renderProjects();
+      saveState();
+      renderAll();
       setMemberFeedback("Responsável excluído.");
+      refreshJsonTextarea();
     });
 
     item.append(deleteButton);
@@ -460,11 +628,10 @@ function deleteProject(projectId) {
   }
 
   projects = projects.filter((project) => project.id !== projectId);
-  saveProjects();
-  renderDashboard();
-  renderMembers();
-  renderProjects();
+  saveState();
+  renderAll();
   setFeedback("Projeto excluído.");
+  refreshJsonTextarea();
 }
 
 function addActivity(projectId, { title, responsible }) {
@@ -481,14 +648,13 @@ function addActivity(projectId, { title, responsible }) {
     };
   });
 
-  saveProjects();
-  renderDashboard();
-  renderMembers();
-  renderProjects();
+  saveState();
+  renderAll();
+  refreshJsonTextarea();
 }
 
 function updateActivityStatus(projectId, activityId, newStatus) {
-  const normalizedStatus = LEGACY_STATUS_MAP[newStatus] || newStatus;
+  const normalizedStatus = normalizeStatus(newStatus);
 
   projects = projects.map((project) => {
     if (project.id !== projectId) {
@@ -505,9 +671,10 @@ function updateActivityStatus(projectId, activityId, newStatus) {
     };
   });
 
-  saveProjects();
+  saveState();
   renderDashboard();
   renderProjects();
+  refreshJsonTextarea();
 }
 
 function deleteActivity(projectId, activityId) {
@@ -522,11 +689,10 @@ function deleteActivity(projectId, activityId) {
     };
   });
 
-  saveProjects();
-  renderDashboard();
-  renderMembers();
-  renderProjects();
+  saveState();
+  renderAll();
   setFeedback("Atividade excluída.");
+  refreshJsonTextarea();
 }
 
 function handleMemberSubmit(event) {
@@ -546,11 +712,11 @@ function handleMemberSubmit(event) {
   }
 
   members.push(memberName);
-  saveMembers();
-  renderMembers();
-  renderProjects();
+  saveState();
+  renderAll();
   memberForm.reset();
   setMemberFeedback("Responsável adicionado com sucesso.");
+  refreshJsonTextarea();
 }
 
 function handleProjectSubmit(event) {
@@ -570,17 +736,18 @@ function handleProjectSubmit(event) {
   if (projectId) {
     updateProject(projectId, { name, description, deadline });
     closeOverlay(projectOverlay);
+    refreshJsonTextarea();
     return;
   }
 
   const newProject = createProject({ name, description, deadline });
   projects.push(newProject);
-  saveProjects();
-  renderDashboard();
-  renderProjects();
+  saveState();
+  renderAll();
   resetProjectForm();
   closeOverlay(projectOverlay);
   setFeedback("Projeto salvo com sucesso.");
+  refreshJsonTextarea();
 }
 
 function handleActivitySubmit(event) {
@@ -598,7 +765,54 @@ function handleActivitySubmit(event) {
   }
 
   addActivity(projectId, { title, responsible });
+  form.reset();
+  createResponsibleOptions(form.elements.responsible);
   setFeedback("Atividade adicionada com sucesso.");
+}
+
+function handleJsonExport() {
+  refreshJsonTextarea();
+  setJsonFeedback("JSON atualizado.");
+}
+
+async function handleJsonCopy() {
+  try {
+    refreshJsonTextarea();
+    await navigator.clipboard.writeText(jsonTextarea.value);
+    setJsonFeedback("JSON copiado.");
+  } catch (error) {
+    console.error("Erro ao copiar JSON:", error);
+    setJsonFeedback("Não foi possível copiar o JSON.", true);
+  }
+}
+
+function handleJsonImport() {
+  try {
+    const rawJson = jsonTextarea.value.trim();
+
+    if (!rawJson) {
+      setJsonFeedback("Cole um JSON antes de importar.", true);
+      return;
+    }
+
+    const importedState = normalizeImportedState(JSON.parse(rawJson), jsonScope.value);
+    members = importedState.members;
+    projects = importedState.projects;
+
+    if (editingProjectId && !projects.some((project) => project.id === editingProjectId)) {
+      resetProjectForm();
+    }
+
+    saveState();
+    renderAll();
+    refreshJsonTextarea();
+    setFeedback("");
+    setMemberFeedback("");
+    setJsonFeedback("JSON importado com sucesso.");
+  } catch (error) {
+    console.error("Erro ao importar JSON:", error);
+    setJsonFeedback("JSON inválido para o escopo selecionado.", true);
+  }
 }
 
 memberForm.addEventListener("submit", handleMemberSubmit);
@@ -607,6 +821,18 @@ projectFormCancelButton.addEventListener("click", () => {
   resetProjectForm();
   closeOverlay(projectOverlay);
   setFeedback("");
+});
+jsonScope.addEventListener("change", () => {
+  refreshJsonTextarea();
+  setJsonFeedback("");
+});
+jsonExportButton.addEventListener("click", handleJsonExport);
+jsonCopyButton.addEventListener("click", handleJsonCopy);
+jsonImportButton.addEventListener("click", handleJsonImport);
+openJsonOverlayButton.addEventListener("click", () => {
+  resetJsonPanel();
+  openOverlay(jsonOverlay);
+  jsonTextarea.focus();
 });
 openMembersOverlayButton.addEventListener("click", () => {
   openOverlay(membersOverlay);
@@ -618,6 +844,9 @@ openProjectOverlayButton.addEventListener("click", () => {
   openOverlay(projectOverlay);
   projectForm.elements.name.focus();
 });
+document.querySelectorAll("[data-close-overlay='json']").forEach((button) => {
+  button.addEventListener("click", () => closeOverlay(jsonOverlay));
+});
 document.querySelectorAll("[data-close-overlay='members']").forEach((button) => {
   button.addEventListener("click", () => closeOverlay(membersOverlay));
 });
@@ -627,7 +856,7 @@ document.querySelectorAll("[data-close-overlay='project']").forEach((button) => 
     closeOverlay(projectOverlay);
   });
 });
-[membersOverlay, projectOverlay].forEach((overlay) => {
+[jsonOverlay, membersOverlay, projectOverlay].forEach((overlay) => {
   overlay.addEventListener("click", (event) => {
     if (event.target === overlay) {
       if (overlay === projectOverlay) {
@@ -639,6 +868,4 @@ document.querySelectorAll("[data-close-overlay='project']").forEach((button) => 
   });
 });
 
-renderDashboard();
-renderMembers();
-renderProjects();
+renderAll();

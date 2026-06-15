@@ -1,6 +1,6 @@
 # Sprint Master
 
-MVP web para gestão simples de projetos de pesquisa, atividades e acompanhamento de progresso.
+Sistema de Gestão de Projetos de Pesquisa.
 
 ## Integrantes
 
@@ -27,7 +27,35 @@ Abra o arquivo `index.html` no navegador.
 - Definição de responsável por atividade.
 - Alteração de status: `A fazer`, `Em andamento` e `Concluído`.
 - Cálculo de progresso por projeto e visão geral da sprint.
-- Persistência local com `localStorage`.
+- Persistência local com `localStorage` em JSON compacto.
+- Importação e exportação de JSON por escopo: tudo, projetos ou responsáveis.
+
+## Estrutura JSON
+
+O aplicativo salva os dados em uma estrutura compacta:
+
+```json
+{
+  "resp": ["Fabio Ara", "Lucas Toffetti"],
+  "proj": [
+    {
+      "id": "item-1",
+      "nome": "Sprint Master",
+      "desc": "Sistema de gestão.",
+      "prazo": "2026-06-15",
+      "criado": "2026-06-15T12:00:00.000Z",
+      "ats": [
+        {
+          "id": "item-2",
+          "tit": "Revisar backlog",
+          "resp": "Fabio Ara",
+          "st": "em andamento"
+        }
+      ]
+    }
+  ]
+}
+```
 
 ## Documentação Scrum
 
