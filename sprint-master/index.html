@@ -10,8 +10,23 @@
   <main class="app">
     <header class="masthead">
       <div class="masthead__top">
-        <img class="masthead__logo" src="./assets/ifsp-logo.png" alt="Logotipo do IFSP">
-        <h1>Sprint Master</h1>
+        <div class="masthead__brand">
+          <img class="masthead__logo" src="./assets/ifsp-logo.png" alt="Logotipo do IFSP">
+          <h1>Sprint Master</h1>
+        </div>
+        <div class="masthead__actions">
+          <button type="button" id="open-members-overlay" class="icon-button icon-button--toolbar" aria-label="Abrir responsáveis" title="Responsáveis">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.5"/>
+              <path d="M5 19a7 7 0 0 1 14 0"/>
+            </svg>
+          </button>
+          <button type="button" id="open-project-overlay" class="icon-button icon-button--toolbar" aria-label="Novo projeto" title="Novo projeto">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -57,15 +72,39 @@
       </ul>
     </section>
 
-    <section class="panel panel--members" aria-labelledby="members-title">
+    <section class="panel" aria-labelledby="projects-title">
       <div class="section-head">
-        <h2 id="members-title">Responsáveis</h2>
+        <h2 id="projects-title">Projetos</h2>
         <span class="section-head__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" focusable="false">
-            <circle cx="12" cy="8" r="3.5"/>
-            <path d="M5 19a7 7 0 0 1 14 0"/>
+            <path d="M6 7h12M6 12h12M6 17h12"/>
           </svg>
         </span>
+      </div>
+
+      <div id="projects-empty-state" class="empty-state">
+        <span class="empty-state__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h6.879a2 2 0 0 1 1.414.586l4.621 4.621A2 2 0 0 1 19 10.621V18.5A1.5 1.5 0 0 1 17.5 20h-12A1.5 1.5 0 0 1 4 18.5z"/>
+            <path d="M13 4.5V9a1 1 0 0 0 1 1h4.5"/>
+          </svg>
+        </span>
+        <p>Nenhum projeto cadastrado.</p>
+      </div>
+
+      <div id="projects-list" class="projects-list" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <section id="members-overlay" class="overlay-shell" hidden aria-hidden="true">
+    <article class="overlay-panel" role="dialog" aria-modal="true" aria-labelledby="members-title">
+      <div class="section-head section-head--overlay">
+        <h2 id="members-title">Responsáveis</h2>
+        <button type="button" class="icon-button overlay-close-button" data-close-overlay="members" aria-label="Fechar responsáveis" title="Fechar">
+          <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
       </div>
 
       <form id="member-form" class="member-form">
@@ -86,6 +125,7 @@
           </svg>
         </button>
       </form>
+      <p id="member-feedback" class="form-feedback" aria-live="polite"></p>
 
       <div id="members-empty-state" class="empty-state" hidden>
         <span class="empty-state__icon" aria-hidden="true">
@@ -98,16 +138,18 @@
       </div>
 
       <ul id="members-list" class="member-list" aria-live="polite"></ul>
-    </section>
+    </article>
+  </section>
 
-    <section class="panel panel--form" aria-labelledby="project-form-title">
-      <div class="section-head">
+  <section id="project-overlay" class="overlay-shell" hidden aria-hidden="true">
+    <article class="overlay-panel overlay-panel--editing" role="dialog" aria-modal="true" aria-labelledby="project-form-title">
+      <div class="section-head section-head--overlay">
         <h2 id="project-form-title">Novo projeto</h2>
-        <span class="section-head__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false">
-            <path d="M12 5v14M5 12h14"/>
+        <button type="button" class="icon-button overlay-close-button" data-close-overlay="project" aria-label="Fechar projeto" title="Fechar">
+          <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"/>
           </svg>
-        </span>
+        </button>
       </div>
 
       <form id="project-form" class="project-form">
@@ -154,31 +196,8 @@
         </div>
         <p id="form-feedback" class="form-feedback" aria-live="polite"></p>
       </form>
-    </section>
-
-    <section class="panel" aria-labelledby="projects-title">
-      <div class="section-head">
-        <h2 id="projects-title">Projetos</h2>
-        <span class="section-head__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false">
-            <path d="M6 7h12M6 12h12M6 17h12"/>
-          </svg>
-        </span>
-      </div>
-
-      <div id="projects-empty-state" class="empty-state">
-        <span class="empty-state__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false">
-            <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h6.879a2 2 0 0 1 1.414.586l4.621 4.621A2 2 0 0 1 19 10.621V18.5A1.5 1.5 0 0 1 17.5 20h-12A1.5 1.5 0 0 1 4 18.5z"/>
-            <path d="M13 4.5V9a1 1 0 0 0 1 1h4.5"/>
-          </svg>
-        </span>
-        <p>Nenhum projeto cadastrado.</p>
-      </div>
-
-      <div id="projects-list" class="projects-list" aria-live="polite"></div>
-    </section>
-  </main>
+    </article>
+  </section>
 
   <template id="project-card-template">
     <article class="project-card">
