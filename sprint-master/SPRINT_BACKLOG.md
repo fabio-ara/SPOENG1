@@ -2,7 +2,7 @@
 
 ## Objetivo da sprint
 
-Desenvolver um MVP web chamado Sprint Master para cadastro de projetos de pesquisa, atividades e acompanhamento de progresso.
+Desenvolver um MVP web chamado Sprint Master para cadastro e acompanhamento de projetos de pesquisa, com persistência local e documentação da sprint.
 
 ## Período
 
@@ -15,18 +15,20 @@ A atividade foi proposta como uma sprint de sete dias. Por restrições reais de
 ## Papéis
 
 - Product Owner: Fabio Ara
-- Scrum Master: Lucas Toffetti Toffetti
+- Scrum Master: Lucas Toffetti
 - Dev Lead: Fabio Ara
-- QA: Lucas Toffetti Toffetti
-- Integrante nominal: Osvaldo Matteos Matteos
+- QA: Lucas Toffetti
+- Integrante nominal: Osvaldo Matteos
 
 ## Definição de pronto
 
 - O sistema abre pelo `index.html`.
-- É possível cadastrar projetos.
-- É possível adicionar atividades.
-- É possível alterar status das atividades.
-- O progresso por projeto é exibido.
+- É possível cadastrar, editar e excluir projetos.
+- É possível adicionar e excluir atividades.
+- É possível alterar o status das atividades.
+- O progresso por projeto e o progresso geral são exibidos.
+- É possível gerenciar responsáveis em painel próprio.
+- É possível importar e exportar os dados em JSON.
 - O README explica como executar.
 - Os rituais Scrum estão documentados.
 - Há checklist de testes.
@@ -47,7 +49,7 @@ Tarefas:
 
 Estimativa: M  
 Responsável: Fabio Ara  
-Status: A fazer
+Status: Concluída
 
 ### História 2 — Atividades do projeto
 
@@ -57,16 +59,16 @@ Tarefas:
 
 - Criar formulário de atividade.
 - Associar atividade a um projeto.
-- Permitir status: a fazer, andando e concluído.
+- Permitir status: A fazer, Em andamento e Concluído.
 - Exibir atividades dentro do projeto.
 
 Estimativa: M  
 Responsável: Fabio Ara  
-Status: A fazer
+Status: Concluída
 
 ### História 3 — Acompanhamento
 
-Como chefe, quero visualizar o andamento de cada projeto.
+Como chefe, quero visualizar o andamento de cada projeto e da sprint.
 
 Tarefas:
 
@@ -78,9 +80,24 @@ Tarefas:
 
 Estimativa: M  
 Responsável: Fabio Ara  
-Status: A fazer
+Status: Concluída
 
-### História 4 — Documentação Scrum
+### História 4 — Gestão de responsáveis
+
+Como equipe, queremos manter uma lista simples de responsáveis reutilizáveis nas atividades.
+
+Tarefas:
+
+- Criar painel próprio de responsáveis.
+- Persistir a lista no navegador.
+- Bloquear exclusão de responsável em uso.
+- Reutilizar os responsáveis no formulário de atividades.
+
+Estimativa: S  
+Responsável: Fabio Ara  
+Status: Concluída
+
+### História 5 — Documentação Scrum
 
 Como equipe, queremos documentar o processo da sprint.
 
@@ -91,12 +108,13 @@ Tarefas:
 - Registrar Review.
 - Registrar Retrospective.
 - Atualizar README.
+- Registrar o histórico de implementação.
 
 Estimativa: S  
 Responsável: Lucas Toffetti  
-Status: A fazer
+Status: Em andamento
 
-### História 5 — Testes
+### História 6 — Testes
 
 Como equipe, queremos verificar se o MVP funciona antes da entrega.
 
@@ -107,7 +125,23 @@ Tarefas:
 - Testar alteração de status.
 - Testar cálculo de porcentagem.
 - Testar persistência após recarregar a página.
+- Testar importação e exportação de JSON.
 
 Estimativa: S  
 Responsável: Lucas Toffetti  
-Status: A fazer
+Status: Em andamento
+
+### História 7 — Persistência em JSON
+
+Como equipe, queremos um formato compacto de dados para facilitar reaproveitamento e inspeção local.
+
+Tarefas:
+
+- Unificar a persistência em uma chave principal.
+- Definir estrutura compacta para projetos, responsáveis e atividades.
+- Permitir exportação por escopo.
+- Permitir importação com migração do formato anterior.
+
+Estimativa: M  
+Responsável: Fabio Ara  
+Status: Concluída

@@ -5,6 +5,11 @@
 - Navegador:
 - Sistema operacional:
 - Data:
+- Responsável pela execução:
+
+## Orientação
+
+Preencha o campo `Status` com `OK`, `Falhou` ou `Não executado`. Se houver problema, registre ao lado uma observação curta antes de alterar qualquer arquivo do projeto.
 
 ## Checklist
 
@@ -28,3 +33,9 @@
 | Importar projetos por JSON | Selecionar escopo `Projetos` e importar um JSON válido | Lista de projetos é substituída pelos itens importados | Pendente |
 | Importar responsáveis por JSON | Selecionar escopo `Responsáveis` e importar um JSON válido | Lista de responsáveis é atualizada e persiste | Pendente |
 | Copiar JSON | Clicar no botão de copiar no painel JSON | Conteúdo atual é copiado para a área de transferência | Pendente |
+
+## Observações
+
+- Recomenda-se testar primeiro com o `localStorage` limpo.
+- Ao testar importação de JSON, validar tanto o escopo `Tudo` quanto os escopos parciais.
+- Se houver divergência entre comportamento e documentação, registrar primeiro em `README.md` ou no histórico da sprint.

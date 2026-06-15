@@ -31,7 +31,8 @@ Start, Stop, Continue.
 
 - Usar commits pequenos e descritivos.
 - Dividir responsabilidades.
-- - Manter comunicação objetiva.
+- Manter comunicação objetiva.
+- Registrar o estado final do repositório de forma auditável.
 
 ## Ações de melhoria
 
@@ -39,7 +40,12 @@ Start, Stop, Continue.
 2. Fazer uma primeira versão funcional ainda no primeiro dia.
 3. Definir horário fixo para daily.
 4. Registrar impedimentos assim que aparecerem.
+5. Preencher o checklist de testes junto com a consolidação final do sistema.
 
 ## Observação sobre a equipe
 
 A equipe nominal tinha três integrantes, mas a execução efetiva contou com dois participantes. Isso reduziu a capacidade da sprint e exigiu corte de escopo.
+
+## Observação sobre a entrega
+
+Após a consolidação do MVP, o histórico Git e os artefatos Markdown foram alinhados com o estado real do sistema para facilitar apresentação, revisão e continuidade da documentação.

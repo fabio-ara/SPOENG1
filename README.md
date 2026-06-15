@@ -15,3 +15,13 @@ Sistema de gestão de projetos de pesquisa desenvolvido como MVP para a atividad
 Acesse o trabalho na pasta:
 
 [sprint-master](./sprint-master)
+
+## Artefatos principais
+
+- [README do Sprint Master](./sprint-master/README.md)
+- [Sprint Backlog](./sprint-master/SPRINT_BACKLOG.md)
+- [Daily Logs](./sprint-master/DAILY_LOGS.md)
+- [Histórico de Implementação](./sprint-master/HISTORICO_IMPLEMENTACAO.md)
+- [Review](./sprint-master/REVIEW.md)
+- [Retrospective](./sprint-master/RETROSPECTIVE.md)
+- [Testes](./sprint-master/TESTES.md)

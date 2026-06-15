@@ -21,10 +21,14 @@ Entregar um MVP web para cadastro de projetos de pesquisa, atividades e acompanh
 
 - Cadastro de projetos.
 - Listagem de projetos.
+- Edição e exclusão de projetos.
+- Cadastro e exclusão de responsáveis.
 - Cadastro de atividades por projeto.
+- Exclusão de atividades.
 - Alteração de status das atividades.
 - Cálculo de porcentagem concluída.
 - Dashboard simples.
+- Importação e exportação de JSON.
 
 ## Histórias avaliadas
 
@@ -46,15 +50,28 @@ Status: aceita com simplificação.
 
 Justificativa: o sistema mostra porcentagem concluída por projeto e resumo geral, sem gráficos avançados.
 
+### História 4 — Gestão de responsáveis
+
+Status: aceita.
+
+Justificativa: o sistema possui painel próprio de responsáveis, persistência local e bloqueio de exclusão quando há vínculo com atividades.
+
+### História 7 — Persistência em JSON
+
+Status: aceita.
+
+Justificativa: o sistema exporta, importa e reaproveita os dados em um formato compacto único.
+
 ## O que não foi feito
 
 - Login.
 - Backend.
 - Banco de dados real.
 - Controle de permissões.
-- Edição avançada.
+- Edição avançada de atividades.
 - Deploy.
+- Compartilhamento em tempo real.
 
 ## Feedback
 
-O MVP atende ao fluxo principal. Em uma próxima sprint, poderia evoluir com edição de atividades, exclusão com confirmação e banco de dados real.
+O MVP atende ao fluxo principal e ficou mais organizado com os overlays e o painel JSON. Em uma próxima sprint, poderia evoluir com edição de atividades, confirmação explícita de exclusão, filtros por projeto e sincronização com backend.

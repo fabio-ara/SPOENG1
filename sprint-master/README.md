@@ -2,6 +2,10 @@
 
 Sistema de Gestão de Projetos de Pesquisa.
 
+## Visão geral
+
+O Sprint Master é um MVP web para organizar projetos de pesquisa em uma interface única, compacta e executada localmente no navegador. O foco do sistema é permitir cadastro de projetos, responsáveis e atividades, além de acompanhar o progresso sem depender de backend.
+
 ## Integrantes
 
 - Fabio Ara
@@ -11,6 +15,15 @@ Sistema de Gestão de Projetos de Pesquisa.
 ## Como executar
 
 Abra o arquivo `index.html` no navegador.
+
+## Fluxo de uso
+
+1. Abrir o painel de responsáveis no topo e conferir a lista inicial.
+2. Abrir o painel de projeto para cadastrar ou editar um projeto.
+3. Usar a área principal para visualizar os cards dos projetos.
+4. Adicionar atividades diretamente dentro de cada card.
+5. Alterar o status das atividades para atualizar o progresso.
+6. Usar o painel JSON para exportar, importar ou copiar os dados.
 
 ## Tecnologias
 
@@ -29,6 +42,13 @@ Abra o arquivo `index.html` no navegador.
 - Cálculo de progresso por projeto e visão geral da sprint.
 - Persistência local com `localStorage` em JSON compacto.
 - Importação e exportação de JSON por escopo: tudo, projetos ou responsáveis.
+
+## Estrutura de telas
+
+- Tela principal: resumo da sprint e lista de projetos.
+- Overlay de responsáveis: cadastro, listagem e exclusão com bloqueio de uso.
+- Overlay de projeto: criação e edição de nome, descrição e prazo.
+- Overlay JSON: importação, exportação e cópia do estado salvo.
 
 ## Estrutura JSON
 
@@ -57,10 +77,26 @@ O aplicativo salva os dados em uma estrutura compacta:
 }
 ```
 
+## Arquivos principais
+
+- `index.html`: estrutura das telas, overlays e template dos cards.
+- `style.css`: identidade visual, responsividade e alinhamento dos componentes.
+- `script.js`: persistência, renderização, CRUD e fluxo dos overlays.
+- `HISTORICO_IMPLEMENTACAO.md`: resumo incremental do que foi construído.
+- `TESTES.md`: checklist manual para validação do MVP.
+
+## Orientação para o Lucas Toffetti
+
+- Revisar o fluxo completo descrito acima antes de mexer nos artefatos.
+- Executar o checklist de `TESTES.md` e registrar ambiente, data e resultados.
+- Validar se `SPRINT_BACKLOG.md`, `REVIEW.md` e `RETROSPECTIVE.md` continuam coerentes com o sistema atual.
+- Registrar qualquer divergência encontrada primeiro na documentação, antes de propor novas funcionalidades.
+
 ## Documentação Scrum
 
 - [Sprint Backlog](./SPRINT_BACKLOG.md)
 - [Daily Logs](./DAILY_LOGS.md)
+- [Histórico de Implementação](./HISTORICO_IMPLEMENTACAO.md)
 - [Review](./REVIEW.md)
 - [Retrospective](./RETROSPECTIVE.md)
 - [Testes](./TESTES.md)
