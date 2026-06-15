@@ -470,6 +470,17 @@ h2 {
   gap: 10px;
 }
 
+.activity-form__actions {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  column-gap: 10px;
+}
+
+.activity-form__actions .button {
+  grid-column: 2;
+  justify-self: start;
+}
+
 .field--compact input,
 .field--compact select {
   padding-block: 10px;
@@ -583,11 +594,6 @@ h2 {
   background-repeat: no-repeat;
 }
 
-.activity-form .button--icon-right {
-  justify-self: start;
-  margin-left: 28px;
-}
-
 .icon-button {
   display: inline-flex;
   align-items: center;
@@ -653,7 +659,11 @@ h2 {
     justify-self: start;
   }
 
-  .activity-form .button--icon-right {
-    margin-left: 0;
+  .activity-form__actions {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-form__actions .button {
+    grid-column: 1;
   }
 }
