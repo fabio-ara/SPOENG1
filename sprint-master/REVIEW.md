@@ -64,9 +64,9 @@ Justificativa: os artefatos de Planning, Dailies, Review, Retrospective, README 
 
 ### História 6 — Testes
 
-Status: aceita com ressalva.
+Status: aceita.
 
-Justificativa: o checklist manual foi executado pelo Lucas e cobriu o fluxo principal; após os ajustes finais no painel JSON, parte dos cenários específicos de JSON ficou para revalidação pontual em `TESTES.md`.
+Justificativa: o checklist manual foi executado pelo Lucas e cobriu o fluxo principal; após os ajustes finais no painel JSON, parte dos cenários específicos de JSON foram testadas novamente e aprovadas sem ressalva.
 
 ### História 7 — Persistência em JSON
 
