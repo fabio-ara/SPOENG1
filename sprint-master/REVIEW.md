@@ -56,6 +56,18 @@ Status: aceita.
 
 Justificativa: o sistema possui painel próprio de responsáveis, persistência local e bloqueio de exclusão quando há vínculo com atividades.
 
+### História 5 - Documentação SCRUM
+
+Status: aceita.
+
+Justificativa: O processo de sprint, como Dailies e Review foram documentados.
+
+### História 6 - Testes
+
+Status: aceita.
+
+Justificativa: Testes realizados com sucesso.
+
 ### História 7 — Persistência em JSON
 
 Status: aceita.

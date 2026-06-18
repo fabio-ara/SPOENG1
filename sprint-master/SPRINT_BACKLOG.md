@@ -112,8 +112,7 @@ Tarefas:
 
 Estimativa: S  
 Responsável: Lucas Toffetti  
-Status: Em andamento
-
+Status: Concluída
 ### História 6 — Testes
 
 Como equipe, queremos verificar se o MVP funciona antes da entrega.
@@ -129,7 +128,7 @@ Tarefas:
 
 Estimativa: S  
 Responsável: Lucas Toffetti  
-Status: Em andamento
+Status: Concluída
 
 ### História 7 — Persistência em JSON
 
