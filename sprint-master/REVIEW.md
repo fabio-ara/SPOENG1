@@ -28,7 +28,7 @@ Entregar um MVP web para cadastro de projetos de pesquisa, atividades e acompanh
 - Alteração de status das atividades.
 - Cálculo de porcentagem concluída.
 - Dashboard simples.
-- Importação e exportação de JSON.
+- Subida e download de JSON.
 
 ## Histórias avaliadas
 
@@ -56,11 +56,23 @@ Status: aceita.
 
 Justificativa: o sistema possui painel próprio de responsáveis, persistência local e bloqueio de exclusão quando há vínculo com atividades.
 
+### História 5 — Documentação Scrum
+
+Status: aceita.
+
+Justificativa: os artefatos de Planning, Dailies, Review, Retrospective, README e histórico foram consolidados no repositório.
+
+### História 6 — Testes
+
+Status: aceita com ressalva.
+
+Justificativa: o checklist manual foi executado pelo Lucas e cobriu o fluxo principal; após os ajustes finais no painel JSON, parte dos cenários específicos de JSON ficou para revalidação pontual em `TESTES.md`.
+
 ### História 7 — Persistência em JSON
 
 Status: aceita.
 
-Justificativa: o sistema exporta, importa e reaproveita os dados em um formato compacto único.
+Justificativa: o sistema baixa, sobe e reaproveita os dados em um formato compacto único.
 
 ## O que não foi feito
 

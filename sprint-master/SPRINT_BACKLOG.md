@@ -15,10 +15,10 @@ A atividade foi proposta como uma sprint de sete dias. Por restrições reais de
 ## Papéis
 
 - Product Owner: Fabio Ara
-- Scrum Master: Lucas Toffetti Toffetti
+- Scrum Master: Lucas Toffetti
 - Dev Lead: Fabio Ara
-- QA: Lucas Toffetti Toffetti
-- Integrante nominal: Osvaldo Matteos Matteos
+- QA: Lucas Toffetti
+- Integrante nominal: Osvaldo Matteos
 
 ## Definição de pronto
 
@@ -28,7 +28,7 @@ A atividade foi proposta como uma sprint de sete dias. Por restrições reais de
 - É possível alterar o status das atividades.
 - O progresso por projeto e o progresso geral são exibidos.
 - É possível gerenciar responsáveis em painel próprio.
-- É possível importar e exportar os dados em JSON.
+- É possível subir e baixar os dados em JSON.
 - O README explica como executar.
 - Os rituais Scrum estão documentados.
 - Há checklist de testes.
@@ -112,7 +112,7 @@ Tarefas:
 
 Estimativa: S  
 Responsável: Lucas Toffetti  
-Status: Em andamento
+Status: Concluída
 
 ### História 6 — Testes
 
@@ -125,11 +125,13 @@ Tarefas:
 - Testar alteração de status.
 - Testar cálculo de porcentagem.
 - Testar persistência após recarregar a página.
-- Testar importação e exportação de JSON.
+- Testar subida e download de JSON.
+
+Observação: o checklist manual foi executado pelo Lucas na versão anterior ao ajuste final do painel JSON; os cenários novos do fluxo atual ficaram registrados para revalidação pontual em `TESTES.md`.
 
 Estimativa: S  
 Responsável: Lucas Toffetti  
-Status: Em andamento
+Status: Concluída
 
 ### História 7 — Persistência em JSON
 
@@ -139,8 +141,8 @@ Tarefas:
 
 - Unificar a persistência em uma chave principal.
 - Definir estrutura compacta para projetos, responsáveis e atividades.
-- Permitir exportação por escopo.
-- Permitir importação com migração do formato anterior.
+- Permitir download por escopo.
+- Permitir subida com migração do formato anterior.
 
 Estimativa: M  
 Responsável: Fabio Ara  

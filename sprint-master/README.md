@@ -27,7 +27,8 @@ Abra o arquivo `index.html` no navegador.
 3. Usar a área principal para visualizar os cards dos projetos.
 4. Adicionar atividades diretamente dentro de cada card.
 5. Alterar o status das atividades para atualizar o progresso.
-6. Usar o painel JSON para exportar, importar ou copiar os dados.
+6. Usar o painel de backup e substituição JSON para baixar, subir ou copiar os dados.
+   Ao clicar em `Subir`, o sistema abre o seletor de arquivo, substitui o escopo selecionado pelo `.json` escolhido e fecha o painel após aplicar os dados.
 
 ## Tecnologias
 
@@ -45,14 +46,15 @@ Abra o arquivo `index.html` no navegador.
 - Alteração de status: `A fazer`, `Em andamento` e `Concluído`.
 - Cálculo de progresso por projeto e visão geral da sprint.
 - Persistência local com `localStorage` em JSON compacto.
-- Importação e exportação de JSON por escopo: tudo, projetos ou responsáveis.
+- Backup e substituição JSON por escopo: tudo, projetos ou responsáveis.
 
 ## Estrutura de telas
 
 - Tela principal: resumo da sprint e lista de projetos.
 - Overlay de responsáveis: cadastro, listagem e exclusão com bloqueio de uso.
 - Overlay de projeto: criação e edição de nome, descrição e prazo.
-- Overlay JSON: importação, exportação e cópia do estado salvo.
+- Overlay de backup e substituição JSON: baixar, subir por seletor de arquivo e copiar o estado salvo.
+  A subida bem-sucedida atualiza imediatamente a interface principal e substitui o escopo selecionado.
 
 ## Estrutura JSON
 

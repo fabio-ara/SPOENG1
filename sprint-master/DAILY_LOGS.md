@@ -119,7 +119,7 @@ Participantes:
 O que foi consolidado após a sprint:
 
 - Migração dos formulários para overlays de projeto e responsáveis.
-- Inclusão do painel JSON para importar, exportar e copiar dados.
+- Inclusão do painel JSON para subir, baixar e copiar dados.
 - Revisão do histórico Git com branches temáticas e commits menores.
 - Ajuste dos artefatos Markdown para refletir o sistema entregue.
 
