@@ -4,7 +4,7 @@
 
 - Navegador: Google Chrome Versão 149.0.7827.155 64 bits
 - Sistema operacional: Windows 10 Home Single Language Versão 22H2
-- Data: 17/06/2026
+- Data: 17/06/2026 e 18/06/2026
 - Responsável pela execução: Lucas Toffetti Cintra de Pinheiro
 
 ## Orientação
@@ -29,11 +29,11 @@ Preencha o campo `Status` com `OK`, `Falhou` ou `Não executado`. Se houver prob
 | Excluir atividade | Clicar no botão de exclusão da atividade | Atividade sai da lista | OK |
 | Calcular progresso | Marcar atividade como concluída | Percentual do projeto muda | OK |
 | Dashboard | Cadastrar projetos e atividades | Totais aparecem no dashboard | OK |
-| Baixar JSON completo | Abrir o painel JSON e clicar em baixar no escopo `Tudo` | Download do arquivo `.json` é iniciado e o campo mostra responsáveis e projetos em JSON válido | Não executado |
+| Baixar JSON completo | Abrir o painel JSON e clicar em baixar no escopo `Tudo` | Download do arquivo `.json` é iniciado e o campo mostra responsáveis e projetos em JSON válido | Corrigido |
 | Substituir projetos por JSON | Selecionar escopo `Projetos`, clicar em subir e escolher um arquivo JSON válido | Painel fecha e a lista de projetos é substituída pelos itens enviados | OK |
 | Substituir responsáveis por JSON | Selecionar escopo `Responsáveis`, clicar em subir e escolher um arquivo JSON válido | Painel fecha e a lista de responsáveis é substituída pelos itens enviados e persiste | OK |
-| Rejeitar JSON inválido por escopo | Selecionar um escopo, clicar em subir e escolher um arquivo com estrutura incompatível | Sistema exibe erro e preserva o estado anterior | Não executado |
-| Persistir responsáveis vazios | Remover todos os responsáveis sem uso, recarregar a página e baixar `Responsáveis` | Lista continua vazia após o recarregamento e o download | Não executado |
+| Rejeitar JSON inválido por escopo | Selecionar um escopo, clicar em subir e escolher um arquivo com estrutura incompatível | Sistema exibe erro e preserva o estado anterior | OK |
+| Persistir responsáveis vazios | Remover todos os responsáveis sem uso, recarregar a página e baixar `Responsáveis` | Lista continua vazia após o recarregamento e o download | OK |
 | Copiar JSON | Clicar no botão de copiar no painel JSON | Conteúdo atual é copiado para a área de transferência | OK |
 
 ## Observações

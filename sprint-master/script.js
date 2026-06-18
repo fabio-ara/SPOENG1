@@ -37,13 +37,13 @@ const DEFAULT_PROJECT_SEED = {
       id: "seed-atividade-5",
       tit: "Executar checklist manual em TESTES.md",
       resp: "Lucas Toffetti",
-      st: "a fazer"
+      st: "concluído"
     },
     {
       id: "seed-atividade-6",
       tit: "Revisar backlog, review e retrospective",
       resp: "Lucas Toffetti",
-      st: "em andamento"
+      st: "concluído"
     }
   ]
 };
