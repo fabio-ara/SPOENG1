@@ -28,7 +28,7 @@ Entregar um MVP web para cadastro de projetos de pesquisa, atividades e acompanh
 - Alteração de status das atividades.
 - Cálculo de porcentagem concluída.
 - Dashboard simples.
-- Importação e exportação de JSON.
+- Subida e download de JSON.
 
 ## Histórias avaliadas
 
