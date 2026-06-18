@@ -52,7 +52,7 @@ Registrar, de forma resumida e incremental, como o Sprint Master evoluiu até o 
 
 - Unificação da persistência em uma única chave de `localStorage`.
 - Adoção da estrutura compacta com `resp`, `proj` e `ats`.
-- Inclusão de importação, exportação e cópia de JSON por escopo.
+- Inclusão do fluxo de subir, baixar e copiar JSON por escopo.
 - Migração automática do formato legado para o formato atual.
 
 ## Estado atual

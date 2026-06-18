@@ -37,5 +37,6 @@ Preencha o campo `Status` com `OK`, `Falhou` ou `Não executado`. Se houver prob
 ## Observações
 
 - Recomenda-se testar primeiro com o `localStorage` limpo.
-- Ao testar importação de JSON, validar tanto o escopo `Tudo` quanto os escopos parciais.
+- Ao testar subida de JSON, validar tanto o escopo `Tudo` quanto os escopos parciais.
+- Se um JSON de projetos trouxer atividades com responsáveis ainda ausentes na lista, confirmar se esses nomes reaparecem na área de responsáveis após a subida.
 - Se houver divergência entre comportamento e documentação, registrar primeiro em `README.md` ou no histórico da sprint.
