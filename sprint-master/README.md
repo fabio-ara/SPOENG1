@@ -28,6 +28,7 @@ Abra o arquivo `index.html` no navegador.
 4. Adicionar atividades diretamente dentro de cada card.
 5. Alterar o status das atividades para atualizar o progresso.
 6. Usar o painel JSON para baixar, subir ou copiar os dados.
+   Ao clicar em `Subir`, o sistema abre o seletor de arquivo e importa o `.json` escolhido.
 
 ## Tecnologias
 
@@ -52,7 +53,7 @@ Abra o arquivo `index.html` no navegador.
 - Tela principal: resumo da sprint e lista de projetos.
 - Overlay de responsáveis: cadastro, listagem e exclusão com bloqueio de uso.
 - Overlay de projeto: criação e edição de nome, descrição e prazo.
-- Overlay JSON: baixar, subir e copiar o estado salvo.
+- Overlay JSON: baixar, subir por seletor de arquivo e copiar o estado salvo.
 
 ## Estrutura JSON
 

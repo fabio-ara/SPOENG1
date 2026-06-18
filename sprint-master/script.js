@@ -71,6 +71,7 @@ const projectFormCancelButton = document.querySelector("#project-form-cancel");
 const memberForm = document.querySelector("#member-form");
 const jsonScope = document.querySelector("#json-scope");
 const jsonTextarea = document.querySelector("#json-textarea");
+const jsonFileInput = document.querySelector("#json-file-input");
 const jsonDownloadButton = document.querySelector("#json-download-button");
 const jsonCopyButton = document.querySelector("#json-copy-button");
 const jsonUploadButton = document.querySelector("#json-upload-button");
@@ -410,6 +411,7 @@ function refreshJsonTextarea() {
 function resetJsonPanel() {
   jsonScope.value = "all";
   refreshJsonTextarea();
+  jsonFileInput.value = "";
   setJsonFeedback("");
 }
 
@@ -878,7 +880,7 @@ function handleJsonDownload() {
     downloadLink.download = buildJsonFilename(jsonScope.value);
     downloadLink.click();
     URL.revokeObjectURL(downloadUrl);
-    setJsonFeedback("JSON baixado.");
+    setJsonFeedback("Download do JSON iniciado.");
   } catch (error) {
     console.error("Erro ao baixar JSON:", error);
     setJsonFeedback("Não foi possível baixar o JSON.", true);
@@ -896,32 +898,50 @@ async function handleJsonCopy() {
   }
 }
 
-function handleJsonUpload() {
-  try {
-    const rawJson = jsonTextarea.value.trim();
+function applyImportedJson(rawJson) {
+  const importedState = normalizeImportedState(JSON.parse(rawJson), jsonScope.value);
+  members = importedState.members;
+  projects = importedState.projects;
 
-    if (!rawJson) {
-      setJsonFeedback("Cole um JSON antes de subir.", true);
+  if (editingProjectId && !projects.some((project) => project.id === editingProjectId)) {
+    resetProjectForm();
+  }
+
+  saveState();
+  renderAll();
+  refreshJsonTextarea();
+  setFeedback("");
+  setMemberFeedback("");
+}
+
+function handleJsonUpload() {
+  jsonFileInput.value = "";
+  jsonFileInput.click();
+}
+
+async function handleJsonFileSelection(event) {
+  try {
+    const [selectedFile] = event.currentTarget.files || [];
+
+    if (!selectedFile) {
       return;
     }
 
-    const importedState = normalizeImportedState(JSON.parse(rawJson), jsonScope.value);
-    members = importedState.members;
-    projects = importedState.projects;
+    const rawJson = (await selectedFile.text()).trim();
 
-    if (editingProjectId && !projects.some((project) => project.id === editingProjectId)) {
-      resetProjectForm();
+    if (!rawJson) {
+      setJsonFeedback("O arquivo selecionado está vazio.", true);
+      return;
     }
 
-    saveState();
-    renderAll();
-    refreshJsonTextarea();
-    setFeedback("");
-    setMemberFeedback("");
+    jsonTextarea.value = rawJson;
+    applyImportedJson(rawJson);
     setJsonFeedback("JSON subido com sucesso.");
   } catch (error) {
     console.error("Erro ao subir JSON:", error);
     setJsonFeedback("JSON inválido para o escopo selecionado.", true);
+  } finally {
+    event.currentTarget.value = "";
   }
 }
 
@@ -939,6 +959,7 @@ jsonScope.addEventListener("change", () => {
 jsonDownloadButton.addEventListener("click", handleJsonDownload);
 jsonCopyButton.addEventListener("click", handleJsonCopy);
 jsonUploadButton.addEventListener("click", handleJsonUpload);
+jsonFileInput.addEventListener("change", handleJsonFileSelection);
 openJsonOverlayButton.addEventListener("click", () => {
   resetJsonPanel();
   openOverlay(jsonOverlay);

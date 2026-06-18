@@ -244,8 +244,9 @@
           </span>
           <textarea id="json-textarea" rows="14" spellcheck="false" aria-label="Conteúdo JSON" placeholder='{"resp":["Fabio Ara"],"proj":[]}'></textarea>
         </label>
+        <input type="file" id="json-file-input" accept=".json,application/json" hidden>
 
-        <p class="json-form__hint">Baixar gera um arquivo <code>.json</code>. Subir aplica o conteúdo colado no campo.</p>
+        <p class="json-form__hint">Baixar inicia o download de um arquivo <code>.json</code>. Subir abre o seletor de arquivo e importa o JSON escolhido.</p>
 
         <div class="json-form__actions">
           <button type="button" id="json-download-button" class="button button--secondary button--icon" aria-label="Baixar JSON" title="Baixar JSON">
