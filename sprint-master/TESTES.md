@@ -30,8 +30,8 @@ Preencha o campo `Status` com `OK`, `Falhou` ou `Não executado`. Se houver prob
 | Calcular progresso | Marcar atividade como concluída | Percentual do projeto muda | OK |
 | Dashboard | Cadastrar projetos e atividades | Totais aparecem no dashboard | OK |
 | Baixar JSON completo | Abrir o painel JSON e clicar em baixar no escopo `Tudo` | Download do arquivo `.json` é iniciado e o campo mostra responsáveis e projetos em JSON válido | Não executado |
-| Subir projetos por JSON | Selecionar escopo `Projetos`, clicar em subir e escolher um arquivo JSON válido | Lista de projetos é substituída pelos itens enviados | OK |
-| Subir responsáveis por JSON | Selecionar escopo `Responsáveis`, clicar em subir e escolher um arquivo JSON válido | Lista de responsáveis é atualizada e persiste | OK |
+| Subir projetos por JSON | Selecionar escopo `Projetos`, clicar em subir e escolher um arquivo JSON válido | Painel fecha e a lista de projetos é substituída pelos itens enviados | OK |
+| Subir responsáveis por JSON | Selecionar escopo `Responsáveis`, clicar em subir e escolher um arquivo JSON válido | Painel fecha e a lista de responsáveis é atualizada e persiste | OK |
 | Rejeitar JSON inválido por escopo | Selecionar um escopo, clicar em subir e escolher um arquivo com estrutura incompatível | Sistema exibe erro e preserva o estado anterior | Não executado |
 | Persistir responsáveis vazios | Remover todos os responsáveis sem uso, recarregar a página e baixar `Responsáveis` | Lista continua vazia após o recarregamento e o download | Não executado |
 | Copiar JSON | Clicar no botão de copiar no painel JSON | Conteúdo atual é copiado para a área de transferência | OK |

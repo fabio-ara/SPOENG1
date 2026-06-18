@@ -899,6 +899,7 @@ async function handleJsonCopy() {
 }
 
 function applyImportedJson(rawJson) {
+  const previousStateSnapshot = JSON.stringify(serializeScope("all"));
   const importedState = normalizeImportedState(JSON.parse(rawJson), jsonScope.value);
   members = importedState.members;
   projects = importedState.projects;
@@ -912,6 +913,7 @@ function applyImportedJson(rawJson) {
   refreshJsonTextarea();
   setFeedback("");
   setMemberFeedback("");
+  return previousStateSnapshot !== JSON.stringify(serializeScope("all"));
 }
 
 function handleJsonUpload() {
@@ -935,8 +937,10 @@ async function handleJsonFileSelection(event) {
     }
 
     jsonTextarea.value = rawJson;
-    applyImportedJson(rawJson);
-    setJsonFeedback("JSON subido com sucesso.");
+    const hasChanged = applyImportedJson(rawJson);
+    closeOverlay(jsonOverlay);
+    setFeedback(hasChanged ? "Dados atualizados via JSON." : "JSON carregado sem alterações.");
+    setJsonFeedback(hasChanged ? "JSON subido com sucesso." : "JSON subido sem alterações.");
   } catch (error) {
     console.error("Erro ao subir JSON:", error);
     setJsonFeedback("JSON inválido para o escopo selecionado.", true);
