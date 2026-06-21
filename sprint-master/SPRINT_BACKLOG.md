@@ -18,7 +18,7 @@ A atividade foi proposta como uma sprint de sete dias. Por restrições reais de
 - Scrum Master: Lucas Toffetti
 - Dev Lead: Fabio Ara
 - QA: Lucas Toffetti
-- Integrante nominal: Osvaldo Matteos
+- Integrante nominal: Osvaldo Mateos
 
 ## Definição de pronto
 

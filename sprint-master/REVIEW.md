@@ -11,7 +11,7 @@
 
 ## Integrante nominal
 
-- Osvaldo Matteos
+- Osvaldo Mateos
 
 ## Objetivo da sprint
 

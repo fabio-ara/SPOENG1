@@ -1,7 +1,7 @@
 const APP_STORAGE_KEY = "sprint-master-state";
 const LEGACY_PROJECTS_STORAGE_KEY = "sprint-master-projects";
 const LEGACY_MEMBERS_STORAGE_KEY = "sprint-master-members";
-const DEFAULT_MEMBERS = ["Fabio Ara", "Lucas Toffetti", "Osvaldo Matteos"];
+const DEFAULT_MEMBERS = ["Fabio Ara", "Lucas Toffetti", "Osvaldo Mateos"];
 const DEFAULT_PROJECT_SEED = {
   id: "seed-sprint-master",
   nome: "Sprint Master",

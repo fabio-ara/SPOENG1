@@ -10,7 +10,7 @@ Sistema de gestão de projetos de pesquisa desenvolvido como MVP para a atividad
 
 - Fabio Ara
 - Lucas Toffetti
-- Osvaldo Matteos
+- Osvaldo Mateos
 
 Acesse o trabalho na pasta:
 

@@ -10,7 +10,7 @@ O Sprint Master é um MVP web para organizar projetos de pesquisa em uma interfa
 
 - Fabio Ara
 - Lucas Toffetti
-- Osvaldo Matteos
+- Osvaldo Mateos
 
 ## Como executar
 
